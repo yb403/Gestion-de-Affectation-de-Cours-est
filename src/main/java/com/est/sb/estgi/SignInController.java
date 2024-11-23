@@ -61,6 +61,12 @@ public class SignInController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void initialize() {
+        emailField.setText("admin@admin.com");
+        passwordField.setText("admin");
+    }
     @FXML
     private void handleButtonSignUp(ActionEvent event) {
         try {

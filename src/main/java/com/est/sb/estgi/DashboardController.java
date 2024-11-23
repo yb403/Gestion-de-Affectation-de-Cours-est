@@ -1,4 +1,6 @@
 package com.est.sb.estgi;
+import com.est.sb.estgi.Dashboard.SettingsViewController;
+import com.est.sb.estgi.Dashboard.admin.EditCoursController;
 import com.est.sb.estgi.actors.Role;
 import com.est.sb.estgi.actors.User;
 import javafx.fxml.FXML;
@@ -33,6 +35,7 @@ public class DashboardController {
         userData = user;
         userRole = user.getRole();
         setupSidebar();
+        handleHome();
     }
     public static StackPane getContentArea() {
         return instance.contentArea;
@@ -77,7 +80,16 @@ public class DashboardController {
 
     // Define button actions
     public void handleHome() {
-        loadContent("HomeView.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/HomeView.fxml"));
+            Parent editView = loader.load();
+            HomeViewController controller = loader.getController();
+            controller.setUserData(userData);
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleManageStudents() {
@@ -93,7 +105,16 @@ public class DashboardController {
     }
 
     public void handleSettings() {
-        loadContent("SettingsView.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/SettingsView.fxml"));
+            Parent editView = loader.load();
+            SettingsViewController controller = loader.getController();
+            controller.setUserData(userData);
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleMyCourses() {
