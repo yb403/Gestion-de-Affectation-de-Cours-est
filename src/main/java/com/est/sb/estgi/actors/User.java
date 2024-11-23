@@ -10,7 +10,7 @@ enum Role {
     TEACHER,
     STUDENT
 }
-abstract class User {
+public abstract class User {
     private final IntegerProperty id;
     private final StringProperty Fname;
     private final StringProperty Lname;
@@ -21,7 +21,7 @@ abstract class User {
         this.id = new SimpleIntegerProperty(id);
         this.Fname = new SimpleStringProperty(Fname);
         this.Lname = new SimpleStringProperty(Lname);
-        this.email = new SimpleStringProperty("dev@dev.com");
+        this.email = new SimpleStringProperty(email);
         this.password = new SimpleStringProperty(password);
         this.role = new SimpleStringProperty(role.name());
 

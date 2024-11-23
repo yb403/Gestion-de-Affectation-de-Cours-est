@@ -1,6 +1,7 @@
 package com.est.sb.estgi.Dashboard.admin;
 
 import com.est.sb.estgi.DashboardController;
+import com.est.sb.estgi.DatabaseHelper;
 import com.est.sb.estgi.SignUp;
 import com.est.sb.estgi.actors.Student;
 import javafx.fxml.FXML;
@@ -80,13 +81,16 @@ public class ManageStudentsViewController {
         studentTable.getItems().setAll(getStudents());
     }
 
-    // Dummy data for students
     private List<Student> getStudents() {
-        List<Student> students = new ArrayList<>();
-        for (int i =0; i<20; i++){
-            students.add(new Student(i,"Yassine","Ackrmane","dev@abstract.com","aahahahaa"));
+        try {
+            return DatabaseHelper.getAllStudents();
+        } catch (Exception e) {
+            List<Student> students = new ArrayList<>();
+            for (int i =0; i<20; i++){
+                students.add(new Student(i,"Yassine","Ackrmane","dev@abstract.com","aahahahaa"));
+            }
+            return students;
         }
-        return students;
     }
 
     // Handle the "Edit" button click
