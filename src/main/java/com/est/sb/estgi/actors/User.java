@@ -5,11 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-enum Role {
-    ADMIN,
-    TEACHER,
-    STUDENT
-}
+
 public abstract class User {
     private final IntegerProperty id;
     private final StringProperty Fname;
@@ -74,7 +70,10 @@ public abstract class User {
     public StringProperty roleProperty() {
         return role;
     }
+    public String getName(){
 
+        return this.getFname() + " " +this.getLname();
 
+    }
 }
 

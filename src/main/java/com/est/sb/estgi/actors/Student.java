@@ -12,11 +12,6 @@ public class Student extends User {
     }
 
 
-    public String getName(){
-
-        return super.getFname() + super.getLname();
-
-    }
 
 }
 

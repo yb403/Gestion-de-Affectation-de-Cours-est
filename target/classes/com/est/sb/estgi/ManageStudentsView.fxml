@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="740.0" prefWidth="691.0" spacing="20" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.est.sb.estgi.Dashboard.admin.ManageStudentsViewController">
+<VBox alignment="TOP_RIGHT" prefHeight="740.0" prefWidth="691.0" spacing="20" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.est.sb.estgi.Dashboard.admin.ManageStudentsViewController">
+   <Button fx:id="newStudent" alignment="TOP_RIGHT" contentDisplay="TOP" defaultButton="true" mnemonicParsing="false" text="Create New Student" textAlignment="CENTER"  onAction="#handleCreateStudentButton" />
     <!-- Table for displaying students -->
     <TableView fx:id="studentTable" prefHeight="700" prefWidth="600">
         <!-- Columns for student data -->

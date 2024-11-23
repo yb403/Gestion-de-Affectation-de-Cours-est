@@ -2,21 +2,21 @@ package com.est.sb.estgi.Dashboard.admin;
 
 import com.est.sb.estgi.DashboardController;
 import com.est.sb.estgi.DatabaseHelper;
-import com.est.sb.estgi.SignUp;
+import com.est.sb.estgi.Utils;
+import com.est.sb.estgi.actors.Role;
 import com.est.sb.estgi.actors.Student;
+import com.est.sb.estgi.actors.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ManageStudentsViewController {
     @FXML
@@ -28,10 +28,11 @@ public class ManageStudentsViewController {
     @FXML
     private TableColumn<Student, String> nameColumn;
     @FXML
-    public TableColumn<Student, String>  emailColumn;
+    public TableColumn<Student, String> emailColumn;
 
     @FXML
     private TableColumn<Student, String> actionsColumn;
+
 
     @FXML
     public void initialize() {
@@ -77,20 +78,21 @@ public class ManageStudentsViewController {
             }
         });
 
-        // Populate the table with dummy data
         studentTable.getItems().setAll(getStudents());
     }
 
     private List<Student> getStudents() {
+        List<Student> students = new ArrayList<>();
         try {
-            return DatabaseHelper.getAllStudents();
+            for (User s : DatabaseHelper.getAll(Role.STUDENT))
+                students.add((Student) s);
         } catch (Exception e) {
-            List<Student> students = new ArrayList<>();
-            for (int i =0; i<20; i++){
-                students.add(new Student(i,"Yassine","Ackrmane","dev@abstract.com","aahahahaa"));
+            for (int i = 0; i < 20; i++) {
+                students.add(new Student(i, "NOT", "FOUND", "ERROR", "aahahahaa"));
             }
-            return students;
+
         }
+        return students;
     }
 
     // Handle the "Edit" button click
@@ -112,9 +114,33 @@ public class ManageStudentsViewController {
 
     // Handle the "Delete" button click
     public void handleDelete(Student student) {
-        System.out.println("Delete student: " + student.getName());
-        // Implement your delete logic here (e.g., remove student from the database)
-        studentTable.getItems().remove(student); // Remove from the TableView
+
+        Optional<ButtonType> result = Utils.showConfirmationAlert("Delete Confirmation", "Are you sure you want to delete?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                DatabaseHelper.deleteUser(student.getId());
+                studentTable.getItems().remove(student);
+            } catch (Exception e) {
+                Utils.showAlert("Error", "Failed to delete student");
+
+            }
+        } else {
+            System.out.println("User chose Cancel. Aborting deletion.");
+        }
+    }
+
+
+    @FXML
+    public void handleCreateStudentButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/AddStudentView.fxml"));
+            Parent editView = loader.load();
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

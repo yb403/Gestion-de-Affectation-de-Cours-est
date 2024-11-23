@@ -1,32 +1,38 @@
 package com.est.sb.estgi.Dashboard.admin;
 
+import com.est.sb.estgi.DashboardController;
+import com.est.sb.estgi.DatabaseHelper;
+import com.est.sb.estgi.Utils;
+import com.est.sb.estgi.actors.Role;
 import com.est.sb.estgi.actors.Student;
+import com.est.sb.estgi.actors.Teacher;
+import com.est.sb.estgi.actors.User;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ManageTeachersViewController {
     @FXML
-    private TableView<Student> teacherTable;
+    private TableView<Teacher> teacherTable;
 
     @FXML
-    private TableColumn<Student, Integer> idColumn;
+    private TableColumn<Teacher, Integer> idColumn;
 
     @FXML
-    private TableColumn<Student, String> nameColumn;
+    private TableColumn<Teacher, String> nameColumn;
     @FXML
-    public TableColumn<Student, String>  emailColumn;
+    public TableColumn<Teacher, String>  emailColumn;
 
     @FXML
-    private TableColumn<Student, String> actionsColumn;
+    private TableColumn<Teacher, String> actionsColumn;
 
     @FXML
     public void initialize() {
@@ -36,14 +42,14 @@ public class ManageTeachersViewController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         // Set the custom cell factory for the "Actions" column
-        actionsColumn.setCellFactory(param -> new TableCell<Student, String>() {
+        actionsColumn.setCellFactory(param -> new TableCell<Teacher, String>() {
             private final Button editButton = new Button("Edit");
             private final Button deleteButton = new Button("Delete");
 
             {
                 // Edit button action
                 editButton.setOnAction(event -> {
-                    Student student = getTableRow().getItem();
+                    Teacher student = getTableRow().getItem();
                     if (student != null) {
                         handleEdit(student);
                     }
@@ -51,7 +57,7 @@ public class ManageTeachersViewController {
 
                 // Delete button action
                 deleteButton.setOnAction(event -> {
-                    Student student = getTableRow().getItem();
+                    Teacher student = getTableRow().getItem();
                     if (student != null) {
                         handleDelete(student);
                     }
@@ -73,29 +79,61 @@ public class ManageTeachersViewController {
         });
 
         // Populate the table with dummy data
-        teacherTable.getItems().setAll(getStudents());
+        teacherTable.getItems().setAll(getTeachers());
     }
 
-    // Dummy data for students
-    private List<Student> getStudents() {
-        List<Student> students = new ArrayList<>();
-        for (int i =0; i<20; i++){
-            students.add(new Student(i,"Yassine","Ackrmane","dev@abstract.com","aahahahaa"));
+    private List<Teacher> getTeachers() {
+        List<Teacher> teachers = new ArrayList<>();
+        try {
+            for (User s: DatabaseHelper.getAll(Role.TEACHER))
+                teachers.add((Teacher) s);
+        } catch (Exception e) {
+            for (int i =0; i<20; i++){
+                teachers.add(new Teacher(i,"NOT","FOUND","ERROR","aahahahaa"));
+            }
+
         }
-        return students;
+        return teachers;
     }
 
     // Handle the "Edit" button click
-    public void handleEdit(Student student) {
-        System.out.println("Edit student: " + student.getName());
-        // Implement your edit logic here (e.g., show a dialog to edit student details)
+    public void handleEdit(Teacher teacher) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/EditTeacherView.fxml"));
+            Parent editView = loader.load();
+            EditTeacherController controller = loader.getController();
+            controller.setTeacherData(teacher);
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    @FXML
+    public void handleCreateTeacherButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/AddTeacherView.fxml"));
+            Parent editView = loader.load();
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    // Handle the "Delete" button click
-    public void handleDelete(Student student) {
-        System.out.println("Delete student: " + student.getName());
-        // Implement your delete logic here (e.g., remove student from the database)
-        teacherTable.getItems().remove(student); // Remove from the TableView
+    }
+    public void handleDelete(Teacher teacher) {
+        Optional<ButtonType> result = Utils.showConfirmationAlert("Delete Confirmation","Are you sure you want to delete?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try{
+                DatabaseHelper.deleteUser(teacher.getId());
+                teacherTable.getItems().remove(teacher);
+            } catch (Exception e) {
+                Utils.showAlert("Error","Failed to delete student");
+
+            }
+        } else {
+            System.out.println("User chose Cancel. Aborting deletion.");
+        }
     }
 }
 

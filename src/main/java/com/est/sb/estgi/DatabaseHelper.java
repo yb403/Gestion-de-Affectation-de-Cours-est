@@ -1,6 +1,8 @@
 package com.est.sb.estgi;
 
+import com.est.sb.estgi.actors.Role;
 import com.est.sb.estgi.actors.Student;
+import com.est.sb.estgi.actors.Teacher;
 import com.est.sb.estgi.actors.User;
 
 import java.sql.Connection;
@@ -37,6 +39,13 @@ public class DatabaseHelper {
             stmt.executeUpdate();
         }
     }
+    public static void deleteUser(int id) throws SQLException {
+        String query = "DELETE FROM users WHERE id = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
 
 
     public static void saveUser(User user) throws SQLException {
@@ -64,18 +73,29 @@ public class DatabaseHelper {
         }
 
     }
-    public static List<Student> getAllStudents() throws SQLException {
+    public static List<User> getAll(Role role) throws SQLException {
         String query = "SELECT * FROM users WHERE role = ?";
-        List<Student> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, "STUDENT");
+            stmt.setString(1, role.name());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                users.add(new Student(rs.getInt("id"),
-                        rs.getString("Fname"),
-                        rs.getString("Lname"),
-                        rs.getString("email"),
-                        rs.getString("password")));
+                if (role.equals(Role.STUDENT)){
+                    users.add(new Student(rs.getInt("id"),
+                            rs.getString("Fname"),
+                            rs.getString("Lname"),
+                            rs.getString("email"),
+                            rs.getString("password")));
+                }
+                else if (role.equals(Role.TEACHER)){
+                    users.add(new Teacher(rs.getInt("id"),
+                            rs.getString("Fname"),
+                            rs.getString("Lname"),
+                            rs.getString("email"),
+                            rs.getString("password")));
+
+                }
+
             }
         }
         return users;
