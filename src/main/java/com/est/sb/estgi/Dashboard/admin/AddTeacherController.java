@@ -82,7 +82,7 @@ public class AddTeacherController {
             Utils.showAlert("Invalid Email", "Please enter a valid email address.");
         }
         try{
-            DatabaseHelper.saveUser(new Student(0,Fname,Lname,email,password));
+            DatabaseHelper.saveUser(new Teacher(0,Fname,Lname,email,password));
             clearFields();
             Utils.showAlert("Successfully", "Student Created Successfully.");
 

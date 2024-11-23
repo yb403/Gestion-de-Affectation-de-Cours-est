@@ -48,6 +48,19 @@ public class DatabaseHelper {
     }
 
 
+    public static void updateUser(User user) throws SQLException {
+        String query = "UPDATE users SET Fname = ?, Lname = ?, email = ?, password = ? WHERE id = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, user.getFname());
+            stmt.setString(2, user.getLname());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPassword());
+            stmt.setInt(5, user.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+
     public static void saveUser(User user) throws SQLException {
 
         String query = "INSERT INTO users (Fname, Lname, email, password, role) VALUES (?, ?, ?, ?, ?)";
