@@ -3,6 +3,7 @@ module com.est.sb.estgi {
     requires javafx.fxml;
 
     requires com.dlsc.formsfx;
+    requires java.sql;
 
     opens com.est.sb.estgi to javafx.fxml;
     exports com.est.sb.estgi;

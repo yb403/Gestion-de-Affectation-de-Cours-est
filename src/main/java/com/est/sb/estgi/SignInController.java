@@ -26,8 +26,6 @@ public class SignInController {
 
         }
     }
-
-
     @FXML
     private void handleButtonSignUp(ActionEvent event) {
         try {

@@ -5,18 +5,25 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+enum Role {
+    ADMIN,
+    TEACHER,
+    STUDENT
+}
 abstract class User {
     private final IntegerProperty id;
     private final StringProperty Fname;
     private final StringProperty Lname;
     private final StringProperty email;
     private final StringProperty password;
-    public User(int id,String Fname,String Lname,String email,String password) {
+    private final StringProperty role;
+    public User(int id,String Fname,String Lname,String email,String password, Role role) {
         this.id = new SimpleIntegerProperty(id);
         this.Fname = new SimpleStringProperty(Fname);
         this.Lname = new SimpleStringProperty(Lname);
         this.email = new SimpleStringProperty("dev@dev.com");
         this.password = new SimpleStringProperty(password);
+        this.role = new SimpleStringProperty(role.name());
 
     }
     public String getLname() {
@@ -57,6 +64,15 @@ abstract class User {
 
     public StringProperty passwordProperty() {
         return password;
+    }
+
+
+    public String getRole() {
+        return role.get();
+    }
+
+    public StringProperty roleProperty() {
+        return role;
     }
 
 

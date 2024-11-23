@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class DashboardController {
@@ -23,6 +24,7 @@ public class DashboardController {
     public void initialize() {
         setupSidebar();
         instance = this;
+
     }
     public static StackPane getContentArea() {
         return instance.contentArea;

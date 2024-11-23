@@ -80,7 +80,7 @@ public class ManageTeachersViewController {
     private List<Student> getStudents() {
         List<Student> students = new ArrayList<>();
         for (int i =0; i<20; i++){
-            students.add(new Student("John Doe", i));
+            students.add(new Student(i,"Yassine","Ackrmane","dev@abstract.com","aahahahaa"));
         }
         return students;
     }

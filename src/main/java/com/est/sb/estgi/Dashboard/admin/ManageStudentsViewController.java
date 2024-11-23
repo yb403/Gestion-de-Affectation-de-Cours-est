@@ -91,7 +91,6 @@ public class ManageStudentsViewController {
 
     // Handle the "Edit" button click
     public void handleEdit(Student student) {
-        System.out.println("Edit student: " + student.getName());
         try {
 
             // Load the EditStudentView.fxml
@@ -99,7 +98,7 @@ public class ManageStudentsViewController {
             Parent editView = loader.load();
             EditStudentController controller = loader.getController();
 
-            controller.setStudentData(student.getId(),student.getName());
+            controller.setStudentData(student);
             DashboardController.getContentArea().getChildren().clear(); // Clear existing content
             DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
         } catch (Exception e) {

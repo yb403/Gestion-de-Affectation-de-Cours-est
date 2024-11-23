@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 public class Student extends User {
 
     public Student(int id,String Fname,String Lname,String email,String password) {
-        super(id,Fname,Lname,email,password);
+        super(id,Fname,Lname,email,password,Role.STUDENT);
     }
 
 
