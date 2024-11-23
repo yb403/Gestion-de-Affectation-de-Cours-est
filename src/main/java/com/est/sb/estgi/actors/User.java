@@ -67,6 +67,8 @@ public abstract class User {
         return role.get();
     }
 
+
+
     public StringProperty roleProperty() {
         return role;
     }

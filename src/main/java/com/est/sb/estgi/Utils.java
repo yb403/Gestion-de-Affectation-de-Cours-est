@@ -21,6 +21,14 @@ public class Utils {
         alert.setContentText(message);
         return alert.showAndWait();
     }
+    public static void showAlertError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     public static boolean isValidEmail(String email) {
         // Regex for email validation
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";

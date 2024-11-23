@@ -9,11 +9,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.control.PasswordField?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="694.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.est.sb.estgi.SignInController">
    <children>
       <Button layoutX="517.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="25.0" prefWidth="92.0" text="Login" />
-      <TextField layoutX="465.0" layoutY="122.0" prefHeight="25.0" prefWidth="196.0" promptText="Email" />
-      <TextField layoutX="465.0" layoutY="177.0" prefHeight="25.0" prefWidth="196.0" promptText="Password" />
+      <TextField fx:id="emailField" layoutX="465.0" layoutY="122.0" prefHeight="25.0" prefWidth="196.0" promptText="Email" />
+      <PasswordField fx:id="passwordField" layoutX="465.0" layoutY="177.0" prefHeight="25.0" prefWidth="196.0" promptText="Password" />
       <CheckBox layoutX="467.0" layoutY="224.0" mnemonicParsing="false" text="Remember Me" />
       <Label layoutX="465.0" layoutY="297.0" text="Don't Have Account ?" />
       <Pane layoutX="14.0" layoutY="14.0" prefHeight="439.0" prefWidth="346.0">

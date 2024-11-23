@@ -1,5 +1,6 @@
 package com.est.sb.estgi;
 import com.est.sb.estgi.actors.Role;
+import com.est.sb.estgi.actors.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,16 +18,21 @@ public class DashboardController {
 
     @FXML
     private StackPane contentArea;
-
-    // Simulated role (can come from authentication logic)
-    private Role userRole; // or "student"
+    private String userRole; // or "student"
     private static DashboardController instance;
+    private User userData;
     @FXML
     public void initialize() {
-        userRole = Role.ADMIN;
-        setupSidebar();
+
         instance = this;
 
+    }
+
+
+    public void SetUserData(User user) {
+        userData = user;
+        userRole = user.getRole();
+        setupSidebar();
     }
     public static StackPane getContentArea() {
         return instance.contentArea;
@@ -34,16 +40,22 @@ public class DashboardController {
     private void setupSidebar() {
         sidebar.getChildren().clear();
 
-        if (userRole.equals(Role.ADMIN)) {
+        if (userRole.equals(Role.ADMIN.name())) {
             addSidebarButton("Home", "#handleHome");
             addSidebarButton("Manage Courses", "#handleManageCourses");
             addSidebarButton("Manage Teachers", "#handleManageTeachers");
             addSidebarButton("Manage Students", "#handleManageStudents");
             addSidebarButton("Profile", "#handleSettings");
-        } else if (userRole.equals(Role.STUDENT)) {
+        } else if (userRole.equals(Role.STUDENT.name())) {
             addSidebarButton("Home", "#handleHome");
             addSidebarButton("My Courses", "#handleMyCourses");
             addSidebarButton("My Teachers", "#handleMyTeachers");
+            addSidebarButton("Exams", "#handleExams");
+            addSidebarButton("Profile", "#handleProfile");
+        } else if (userRole.equals(Role.TEACHER.name())) {
+            addSidebarButton("Home", "#handleHome");
+            addSidebarButton("My Courses", "#handleMyCourses");
+            addSidebarButton("Teachers", "#handleMyTeachers");
             addSidebarButton("Exams", "#handleExams");
             addSidebarButton("Profile", "#handleProfile");
         }
