@@ -84,6 +84,35 @@ public class DatabaseHelper {
             stmt.executeUpdate();
         }
     }
+    public static User Authenticate(String email, String password) throws SQLException {
+        String query = "SELECT id, Fname, Lname, email, password, role FROM users WHERE email = ? AND password = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (rs.getString("role").equals(Role.STUDENT.name())){
+                    return new Student(
+                            rs.getInt("id"),
+                            rs.getString("Fname"),
+                            rs.getString("Lname"),
+                            rs.getString("email"),
+                            rs.getString("password")
+                    );
+                } else  if (rs.getString("role").equals(Role.TEACHER.name())){
+                    return new Teacher(
+                            rs.getInt("id"),
+                            rs.getString("Fname"),
+                            rs.getString("Lname"),
+                            rs.getString("email"),
+                            rs.getString("password")
+                    );
+                }
+
+            }
+        }
+        return null;
+    }
 
 
     public static void saveUser(User user) throws SQLException {
