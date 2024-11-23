@@ -2,6 +2,7 @@ package com.est.sb.estgi.Dashboard.admin;
 
 import com.est.sb.estgi.DashboardController;
 import com.est.sb.estgi.DatabaseHelper;
+import com.est.sb.estgi.Utils;
 import com.est.sb.estgi.actors.Cours;
 import com.est.sb.estgi.actors.Student;
 import com.est.sb.estgi.actors.Teacher;
@@ -9,15 +10,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ManageCoursesViewController {
     @FXML
@@ -106,11 +105,10 @@ public class ManageCoursesViewController {
             return DatabaseHelper.getAllCours();
         } catch (Exception e) {
             e.printStackTrace();
-
             List<Cours> cours = new ArrayList<>();
             Teacher teacher = new Teacher(0,"ysf","baddi","baddi@est.sb","0101010101");
             for (int i =0; i<20; i++){
-                cours.add(new Cours(i,"C++","Programmation shit",teacher));
+                cours.add(new Cours(i,"NOT","FOUND",teacher));
             }
             return cours;
         }
@@ -119,15 +117,32 @@ public class ManageCoursesViewController {
 
     // Handle the "Edit" button click
     public void handleEdit(Cours cour) {
-        //System.out.println("Edit student: " + student.getName());
-        // Implement your edit logic here (e.g., show a dialog to edit student details)
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/EditCoursView.fxml"));
+            Parent editView = loader.load();
+            EditCoursController controller = loader.getController();
+            controller.setCoursData(cour);
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Handle the "Delete" button click
     public void handleDelete(Cours cour) {
-        //System.out.println("Delete student: " + student.getName());
-        // Implement your delete logic here (e.g., remove student from the database)
-        coursTable.getItems().remove(cour); // Remove from the TableView
+        Optional<ButtonType> result = Utils.showConfirmationAlert("Delete Confirmation", "Are you sure you want to delete?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                DatabaseHelper.deleteCours(cour.getId());
+                coursTable.getItems().remove(cour);
+            } catch (Exception e) {
+                Utils.showAlert("Error", "Failed to delete cours");
+
+            }
+        } else {
+            System.out.println("User chose Cancel. Aborting deletion.");
+        }
     }
 }
 

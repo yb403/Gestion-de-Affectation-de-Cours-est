@@ -55,7 +55,24 @@ public class DatabaseHelper {
         }
     }
 
+    public static void updateCours(Cours cours) throws SQLException {
+        String query = "UPDATE  Cours SET courseName  = ?, courseDescription  = ?,teacherID = ? WHERE courseID = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, cours.getTitle());
+            stmt.setString(2, cours.getDescription());
+            stmt.setInt(3, cours.getTeacher().getId());
+            stmt.setInt(4, cours.getId());
+            stmt.executeUpdate();
+        }
+    }
 
+    public static void deleteCours(int id) throws SQLException {
+        String query = "DELETE FROM cours WHERE courseID = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
     public static void updateUser(User user) throws SQLException {
         String query = "UPDATE users SET Fname = ?, Lname = ?, email = ?, password = ? WHERE id = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
