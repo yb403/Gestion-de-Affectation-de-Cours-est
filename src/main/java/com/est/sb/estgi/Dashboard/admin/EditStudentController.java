@@ -74,6 +74,7 @@ public class EditStudentController {
             try {
                 DatabaseHelper.updateUser(new Student(Integer.parseInt(studentid.getText()),
                         Fname, Lname, email, password));
+                Utils.showAlert("Successfully", "Student Updated Successfully.");
             } catch (Exception e) {
                 e.printStackTrace();
             }

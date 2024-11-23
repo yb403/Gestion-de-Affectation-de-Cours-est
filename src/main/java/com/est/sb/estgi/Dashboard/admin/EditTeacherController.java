@@ -67,6 +67,7 @@ public class EditTeacherController {
             try {
                 DatabaseHelper.updateUser(new Teacher(Integer.parseInt(studentid.getText()),
                         Fname, Lname, email, password));
+                Utils.showAlert("Successfully", "Teacher Updated Successfully.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -84,7 +85,7 @@ public class EditTeacherController {
     public void handleBackButton(){
         try{
             // Load the EditStudentView.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/ManageStudentsView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/ManageTeachersView.fxml"));
             Parent editView = loader.load();
             DashboardController.getContentArea().getChildren().clear(); // Clear existing content
             DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
