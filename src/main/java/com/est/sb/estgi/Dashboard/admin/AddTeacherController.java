@@ -84,7 +84,7 @@ public class AddTeacherController {
         try{
             DatabaseHelper.saveUser(new Teacher(0,Fname,Lname,email,password));
             clearFields();
-            Utils.showAlert("Successfully", "Student Created Successfully.");
+            Utils.showAlert("Successfully", "Teacher Created Successfully.");
 
         } catch (Exception e) {
             Utils.showAlert("Error", "Could not create student.");
