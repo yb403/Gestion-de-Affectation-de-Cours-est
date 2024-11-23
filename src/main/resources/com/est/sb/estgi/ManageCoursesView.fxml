@@ -18,9 +18,14 @@
                     <PropertyValueFactory property="id" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id="titleColumn" prefWidth="161.0" text="Cours Title">
+            <TableColumn fx:id="titleColumn" prefWidth="161.0" text="Title">
                 <cellValueFactory>
                     <PropertyValueFactory property="name" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="teacherColumn" prefWidth="235.0" text="Teacher">
+                <cellValueFactory>
+                    <PropertyValueFactory property="teacher" />
                 </cellValueFactory>
             </TableColumn>
             <TableColumn fx:id="descriptionColumn" prefWidth="235.0" text="Cours Description">

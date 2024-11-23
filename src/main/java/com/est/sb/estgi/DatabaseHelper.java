@@ -1,9 +1,6 @@
 package com.est.sb.estgi;
 
-import com.est.sb.estgi.actors.Role;
-import com.est.sb.estgi.actors.Student;
-import com.est.sb.estgi.actors.Teacher;
-import com.est.sb.estgi.actors.User;
+import com.est.sb.estgi.actors.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -48,6 +45,17 @@ public class DatabaseHelper {
     }
 
 
+    public static void saveCours(Cours cours) throws SQLException {
+        String query = "INSERT INTO Cours (courseName, courseDescription,teacherID) VALUES (?,?,?)";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, cours.getTitle());
+            stmt.setString(1, cours.getDescription());
+            stmt.setInt(1, cours.getTeacher().getId());
+            stmt.executeUpdate();
+        }
+    }
+
+
     public static void updateUser(User user) throws SQLException {
         String query = "UPDATE users SET Fname = ?, Lname = ?, email = ?, password = ? WHERE id = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -85,6 +93,21 @@ public class DatabaseHelper {
             }
         }
 
+    }
+    public static List<Cours> getAllCours() throws SQLException {
+        String query = "SELECT c.*,u.Fname,u.Lname FROM cours c, users u WHERE c.teacherID = u.id\n";
+        List<Cours> cours = new ArrayList<>();
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                    cours.add(new Cours(rs.getInt("courseID"),
+                            rs.getString("courseName"),
+                            rs.getString("courseDescription"),
+                            new Teacher(rs.getInt("teacherID"),rs.getString("Fname"),rs.getString("Lname"),"","")));
+            }
+        }
+        return cours;
     }
     public static List<User> getAll(Role role) throws SQLException {
         String query = "SELECT * FROM users WHERE role = ?";

@@ -31,7 +31,7 @@ public class SignInController {
         try {
             Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SignUp.fxml")));
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(newRoot,920, 540));
+            stage.setScene(new Scene(newRoot,1020, 540));
         } catch (Exception ignored) {
 
         }

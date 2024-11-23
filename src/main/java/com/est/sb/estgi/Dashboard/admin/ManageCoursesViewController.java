@@ -1,8 +1,10 @@
 package com.est.sb.estgi.Dashboard.admin;
 
 import com.est.sb.estgi.DashboardController;
+import com.est.sb.estgi.DatabaseHelper;
 import com.est.sb.estgi.actors.Cours;
 import com.est.sb.estgi.actors.Student;
+import com.est.sb.estgi.actors.Teacher;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -30,6 +32,8 @@ public class ManageCoursesViewController {
     public TableColumn<Cours, String>  descriptionColumn;
 
     @FXML
+    public TableColumn<Cours, String>  teacherColumn;
+    @FXML
     private TableColumn<Cours, String> actionsColumn;
 
     @FXML
@@ -37,7 +41,9 @@ public class ManageCoursesViewController {
         // Set up columns for the table
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        teacherColumn.setCellValueFactory(new PropertyValueFactory<>("teacherName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
 
         // Set the custom cell factory for the "Actions" column
         actionsColumn.setCellFactory(param -> new TableCell<Cours, String>() {
@@ -96,11 +102,19 @@ public class ManageCoursesViewController {
     }
     // Dummy data for cours
     private List<Cours> getCours() {
-        List<Cours> cours = new ArrayList<>();
-        for (int i =0; i<20; i++){
-            cours.add(new Cours(i,"C++","Programmation shit"));
+        try{
+            return DatabaseHelper.getAllCours();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            List<Cours> cours = new ArrayList<>();
+            Teacher teacher = new Teacher(0,"ysf","baddi","baddi@est.sb","0101010101");
+            for (int i =0; i<20; i++){
+                cours.add(new Cours(i,"C++","Programmation shit",teacher));
+            }
+            return cours;
         }
-        return cours;
+
     }
 
     // Handle the "Edit" button click
