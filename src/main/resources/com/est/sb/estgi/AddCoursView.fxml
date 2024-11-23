@@ -11,9 +11,9 @@
     <children>
         <Button fx:id="save" layoutX="268.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Save" onAction="#handleSubmitButton"/>
         <Label fx:id="welcome" layoutX="259.0" layoutY="27.0" text="Create Cours" />
-        <TextField fx:id="FnameField" layoutX="184.0" layoutY="94.0" prefHeight="25.0" prefWidth="259.0" promptText="Cours Title" />
+        <TextField fx:id="titleField" layoutX="184.0" layoutY="94.0" prefHeight="25.0" prefWidth="259.0" promptText="Cours Title" />
         <Button fx:id="save1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="25.0" prefWidth="92.0" text="Back" />
-      <TextArea layoutX="184.0" layoutY="130.0" prefHeight="138.0" prefWidth="259.0" promptText="Cours Description" />
+      <TextArea fx:id="descriptionArea" layoutX="184.0" layoutY="130.0" prefHeight="138.0" prefWidth="259.0" promptText="Cours Description" />
       <Label fx:id="welcome1" layoutX="117.0" layoutY="97.0" text="Cours Title:" />
       <Label fx:id="welcome11" layoutX="77.0" layoutY="130.0" text="Cours Description:" />
       <ComboBox fx:id="teacherList" layoutX="184.0" layoutY="286.0" prefWidth="150.0" />

@@ -2,14 +2,12 @@ package com.est.sb.estgi.Dashboard.admin;
 
 import com.est.sb.estgi.DashboardController;
 import com.est.sb.estgi.DatabaseHelper;
-import com.est.sb.estgi.actors.Cours;
-import com.est.sb.estgi.actors.Role;
-import com.est.sb.estgi.actors.Teacher;
-import com.est.sb.estgi.actors.User;
+import com.est.sb.estgi.Utils;
+import com.est.sb.estgi.actors.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +16,15 @@ public class AddCoursController {
 
     @FXML
     private ComboBox<String> teacherList;
+
+    @FXML
+    private TextField titleField;
+    @FXML
+    private TextArea descriptionArea;
     private List<Teacher> teachers = new ArrayList<>();
     @FXML
     public void initialize() {
+        teacherList.setValue("Chose Teacher");
         try{
             for (User teacher: DatabaseHelper.getAll(Role.TEACHER)){
                 teachers.add((Teacher) teacher);
@@ -36,10 +40,30 @@ public class AddCoursController {
     public void handleSubmitButton(){
 
         System.out.println(teacherList.getSelectionModel().getSelectedItem());
-        System.out.println(teachers.get(teacherList.getSelectionModel().getSelectedIndex()).getName());
+        System.out.println(teacherList.getSelectionModel().getSelectedIndex());
+        String title = titleField.getText();
+        String description = descriptionArea.getText();
+        if (description.isEmpty()|| title.isEmpty() || teacherList.getSelectionModel().getSelectedIndex() == -1) {
+            Utils.showAlert("Error", "Please fill in all fields and select a teacher.");
+        }else {
+        try{
+            DatabaseHelper.saveCours(new Cours(0,title,description,teachers.get(teacherList.getSelectionModel().getSelectedIndex())));
+            clearFields();
+            Utils.showAlert("Successfully", "Student Created Successfully.");
 
+        } catch (Exception e) {
+            Utils.showAlert("Error", "Could not create Cours.");
+            e.printStackTrace();
+        }}
 
     }
+
+    private void clearFields() {
+        titleField.clear();
+        descriptionArea.clear();
+        teacherList.setValue("Chose Teacher");
+    }
+
     @FXML
     public void handleBackButton(){
         try{

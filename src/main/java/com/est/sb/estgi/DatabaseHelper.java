@@ -49,8 +49,8 @@ public class DatabaseHelper {
         String query = "INSERT INTO Cours (courseName, courseDescription,teacherID) VALUES (?,?,?)";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, cours.getTitle());
-            stmt.setString(1, cours.getDescription());
-            stmt.setInt(1, cours.getTeacher().getId());
+            stmt.setString(2, cours.getDescription());
+            stmt.setInt(3, cours.getTeacher().getId());
             stmt.executeUpdate();
         }
     }
