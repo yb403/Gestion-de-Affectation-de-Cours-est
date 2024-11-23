@@ -1,9 +1,12 @@
 package com.est.sb.estgi.Dashboard.admin;
 
+import com.est.sb.estgi.DashboardController;
 import com.est.sb.estgi.actors.Cours;
 import com.est.sb.estgi.actors.Student;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -78,6 +81,19 @@ public class ManageCoursesViewController {
         coursTable.getItems().setAll(getCours());
     }
 
+
+    @FXML
+    public void handleCreateCoursButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/AddCoursView.fxml"));
+            Parent editView = loader.load();
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     // Dummy data for cours
     private List<Cours> getCours() {
         List<Cours> cours = new ArrayList<>();

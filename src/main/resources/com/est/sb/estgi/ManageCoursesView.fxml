@@ -8,7 +8,7 @@
 <?import javafx.scene.control.Button?>
 <VBox alignment="TOP_RIGHT" prefHeight="740.0" prefWidth="691.0" spacing="20" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.est.sb.estgi.Dashboard.admin.ManageCoursesViewController">
     <!-- Table for displaying students -->
-    <Button fx:id="newCours" alignment="TOP_RIGHT" contentDisplay="TOP" defaultButton="true" mnemonicParsing="false" text="Create New Cour" textAlignment="CENTER" />
+    <Button fx:id="newCours" alignment="TOP_RIGHT" contentDisplay="TOP" defaultButton="true" mnemonicParsing="false" text="Create New Cour" textAlignment="CENTER" onAction="#handleCreateCoursButton"/>
 
     <TableView fx:id="coursTable" prefHeight="700" prefWidth="600">
         <!-- Columns for student data -->
