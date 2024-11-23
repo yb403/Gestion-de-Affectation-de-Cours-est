@@ -91,7 +91,16 @@ public class DatabaseHelper {
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                if (rs.getString("role").equals(Role.STUDENT.name())){
+                if (rs.getString("role").equals(Role.ADMIN.name())){
+                    return new Admin(
+                            rs.getInt("id"),
+                            rs.getString("Fname"),
+                            rs.getString("Lname"),
+                            rs.getString("email"),
+                            rs.getString("password")
+                    );
+                }
+                else if (rs.getString("role").equals(Role.STUDENT.name())){
                     return new Student(
                             rs.getInt("id"),
                             rs.getString("Fname"),
