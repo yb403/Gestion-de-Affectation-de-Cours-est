@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.est.sb.estgi.DashboardController">
+    <!-- Sidebar -->
+    <left>
+        <VBox fx:id="sidebar" prefWidth="200" spacing="20.0" style="-fx-background-color: #34495e; -fx-padding: 15;" BorderPane.alignment="CENTER">
+            <!-- Buttons will be dynamically added -->
+        </VBox>
+    </left>
+    <!-- Dynamic Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" />
+    </center>
+</BorderPane>
