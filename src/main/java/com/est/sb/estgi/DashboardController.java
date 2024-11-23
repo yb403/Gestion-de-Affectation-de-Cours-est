@@ -1,4 +1,5 @@
 package com.est.sb.estgi;
+import com.est.sb.estgi.actors.Role;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,26 +19,28 @@ public class DashboardController {
     private StackPane contentArea;
 
     // Simulated role (can come from authentication logic)
-    private String userRole = "admin"; // or "student"
+    private Role userRole; // or "student"
     private static DashboardController instance;
     @FXML
     public void initialize() {
+        userRole = Role.ADMIN;
         setupSidebar();
         instance = this;
 
     }
     public static StackPane getContentArea() {
         return instance.contentArea;
-    }    private void setupSidebar() {
+    }
+    private void setupSidebar() {
         sidebar.getChildren().clear();
 
-        if ("admin".equals(userRole)) {
+        if (userRole.equals(Role.ADMIN)) {
             addSidebarButton("Home", "#handleHome");
-            addSidebarButton("Manage Students", "#handleManageStudents");
-            addSidebarButton("Manage Teachers", "#handleManageTeachers");
             addSidebarButton("Manage Courses", "#handleManageCourses");
-            addSidebarButton("Settings", "#handleSettings");
-        } else if ("student".equals(userRole)) {
+            addSidebarButton("Manage Teachers", "#handleManageTeachers");
+            addSidebarButton("Manage Students", "#handleManageStudents");
+            addSidebarButton("Profile", "#handleSettings");
+        } else if (userRole.equals(Role.STUDENT)) {
             addSidebarButton("Home", "#handleHome");
             addSidebarButton("My Courses", "#handleMyCourses");
             addSidebarButton("My Teachers", "#handleMyTeachers");
