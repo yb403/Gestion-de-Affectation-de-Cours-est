@@ -50,6 +50,8 @@ public class SignInController {
                     stage.show();
 
                 } catch (Exception e) {
+
+
                     e.printStackTrace();
 
                 }
@@ -58,6 +60,7 @@ public class SignInController {
 
             }
         } catch (Exception e) {
+            Utils.showAlertError("Error",e.getMessage());
             e.printStackTrace();
         }
     }
@@ -66,6 +69,7 @@ public class SignInController {
     private void initialize() {
         emailField.setText("admin@admin.com");
         passwordField.setText("admin");
+        emailField.setText("aha@ahaaaa.com");
     }
     @FXML
     private void handleButtonSignUp(ActionEvent event) {

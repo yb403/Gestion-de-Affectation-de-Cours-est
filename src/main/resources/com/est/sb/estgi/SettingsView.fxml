@@ -9,14 +9,15 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.est.sb.estgi.Dashboard.SettingsViewController">
     <children>
-        <Button fx:id="signup" layoutX="270.0" layoutY="277.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Update" />
+        <Button fx:id="signup" layoutX="270.0" layoutY="277.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Update" onAction="#handleUpdateButton" />
         <TextField fx:id="emailField" layoutX="183.0" layoutY="144.0" prefHeight="25.0" prefWidth="259.0" promptText="Email" />
-        <Label fx:id="welcome" layoutX="266.0" layoutY="55.0" text="Update Your Profile" />
+        <Label fx:id="welcome" layoutX="266.0" layoutY="45.0" text="Update Your Profile" />
         <TextField fx:id="FnameField" layoutX="183.0" layoutY="110.0" prefHeight="25.0" prefWidth="125.0" promptText="First Name" />
         <TextField fx:id="LnameField" layoutX="316.0" layoutY="110.0" prefHeight="25.0" prefWidth="125.0" promptText="Last Name" />
         <RadioButton fx:id="male" layoutX="246.0" layoutY="225.0" mnemonicParsing="false" text="Male" />
         <RadioButton fx:id="female" layoutX="330.0" layoutY="225.0" mnemonicParsing="false" text="Female" />
         <Label fx:id="welcome1" layoutX="183.0" layoutY="225.0" text="Gender:" />
         <PasswordField fx:id="passwordField" layoutX="182.0" layoutY="184.0" prefHeight="25.0" prefWidth="259.0" promptText="Password" />
+      <TextField fx:id="idField" disable="true" layoutX="183.0" layoutY="75.0" prefHeight="25.0" prefWidth="259.0" />
     </children>
 </AnchorPane>

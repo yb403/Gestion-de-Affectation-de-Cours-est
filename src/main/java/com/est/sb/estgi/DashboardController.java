@@ -51,16 +51,12 @@ public class DashboardController {
             addSidebarButton("Profile", "#handleSettings");
         } else if (userRole.equals(Role.STUDENT.name())) {
             addSidebarButton("Home", "#handleHome");
-            addSidebarButton("My Courses", "#handleMyCourses");
-            addSidebarButton("My Teachers", "#handleMyTeachers");
-            addSidebarButton("Exams", "#handleExams");
-            addSidebarButton("Profile", "#handleProfile");
+            addSidebarButton("Courses", "#handleMyCourses");
+            addSidebarButton("Profile", "#handleSettings");
         } else if (userRole.equals(Role.TEACHER.name())) {
             addSidebarButton("Home", "#handleHome");
-            addSidebarButton("My Courses", "#handleMyCourses");
-            addSidebarButton("Teachers", "#handleMyTeachers");
-            addSidebarButton("Exams", "#handleExams");
-            addSidebarButton("Profile", "#handleProfile");
+
+            addSidebarButton("Profile", "#handleSettings");
         }
     }
 
@@ -84,7 +80,7 @@ public class DashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/HomeView.fxml"));
             Parent editView = loader.load();
             HomeViewController controller = loader.getController();
-            controller.setUserData(userData);
+            controller.setUserId(userData.getId());
             DashboardController.getContentArea().getChildren().clear(); // Clear existing content
             DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
         } catch (Exception e) {
@@ -109,7 +105,7 @@ public class DashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/SettingsView.fxml"));
             Parent editView = loader.load();
             SettingsViewController controller = loader.getController();
-            controller.setUserData(userData);
+            controller.setUserId(userData.getId());
             DashboardController.getContentArea().getChildren().clear(); // Clear existing content
             DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
         } catch (Exception e) {
@@ -118,7 +114,7 @@ public class DashboardController {
     }
 
     public void handleMyCourses() {
-        loadContent("MyCoursesView.fxml");
+        loadContent("CoursesView.fxml");
     }
 
     public void handleMyTeachers() {

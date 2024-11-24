@@ -10,9 +10,15 @@ public class HomeViewController {
     @FXML
     private Label welcomeField;
     private User user;
-    public void setUserData(User user) {
-       this.user = user;
-        welcomeField.setText("Welcome " + user.getFname());
+    public void setUserId(int userId) {
+       try{
+           this.user = DatabaseHelper.getUser(userId);
+           welcomeField.setText("Welcome " + this.user.getFname());
+       } catch (Exception e) {
+           e.printStackTrace();
+
+       }
+
     }
 
     @FXML
