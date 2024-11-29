@@ -1,6 +1,7 @@
 package com.est.sb.estgi;
 
 import com.est.sb.estgi.actors.*;
+import com.sun.source.tree.CompilationUnitTree;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -73,6 +74,7 @@ public class DatabaseHelper {
             stmt.executeUpdate();
         }
     }
+
     public static void updateUser(User user) throws SQLException {
         String query = "UPDATE users SET Fname = ?, Lname = ?, email = ?, password = ? WHERE id = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -200,6 +202,25 @@ public class DatabaseHelper {
             }
         }
         return cours;
+    }
+
+
+    public static Cours getCoursById(int id) throws SQLException {
+        String query = "SELECT * FROM cours WHERE CourseID = ?";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                return new Cours(rs.getInt("courseID"),
+                        rs.getString("courseName"),
+                        rs.getString("courseDescription"),
+                        new Teacher(rs.getInt("teacherID"),"","","",""));
+
+            }
+        }
+        return null;
     }
     public static List<User> getAll(Role role) throws SQLException {
         String query = "SELECT * FROM users WHERE role = ?";

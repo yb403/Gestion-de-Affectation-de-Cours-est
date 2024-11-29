@@ -4,6 +4,7 @@ module com.est.sb.estgi {
 
     requires com.dlsc.formsfx;
     requires java.sql;
+    requires jdk.compiler;
 
     opens com.est.sb.estgi to javafx.fxml;
     exports com.est.sb.estgi;
