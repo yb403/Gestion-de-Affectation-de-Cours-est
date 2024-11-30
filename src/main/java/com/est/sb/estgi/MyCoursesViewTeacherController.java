@@ -1,34 +1,33 @@
 package com.est.sb.estgi;
 
-
 import com.est.sb.estgi.actors.Cours;
 import com.est.sb.estgi.actors.User;
-import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CoursesViewController {
+public class MyCoursesViewTeacherController {
+
+    private User user;
 
     @FXML
     private ListView<HBox> courseListView;
 
     private ObservableList<HBox> courseItems = FXCollections.observableArrayList();
     private List<Cours> coursList = new ArrayList<>();
-    @FXML
-
-    private User user;
-
     public void setUserData(User user) {
         this.user = user;
-        loadCourses();
     }
     public void initialize() {
 
@@ -37,7 +36,8 @@ public class CoursesViewController {
 
     private void loadCourses() {
         try{
-            coursList = DatabaseHelper.getAvailableCourse(user.getId());
+            coursList = DatabaseHelper.getMyCourseTeacher(user.getId());
+            System.out.println(coursList);
             for(Cours cours: coursList){
                 //String text = cours.getTitle() + " Prof: " + cours.getTeacherName();
                 String text = cours.getTitle();
@@ -65,8 +65,8 @@ public class CoursesViewController {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Button enrollButton = new Button("Enroll");
-        enrollButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+        Button enrollButton = new Button("Enrolled Students");
+        enrollButton.setStyle("-fx-background-color: #088f2b; -fx-text-fill: white;");
         enrollButton.setOnAction(event -> enrollInCourse(courseItem, cours));
 
         Button detailsButton = new Button("Details");
@@ -79,9 +79,8 @@ public class CoursesViewController {
         courseItems.add(courseItem);
     }
 
-
     private void enrollInCourse(HBox courseItem, Cours cours) {
-        Utils.showAlert("Cours Enrolled","YOu have been encrolled on this cours!!");
+
         try {
             courseItems.remove(courseItem);
             if (cours != null) {
@@ -93,7 +92,8 @@ public class CoursesViewController {
         }
 
         try{
-            DatabaseHelper.insertEnrolled(user.getId(), cours.getId());
+            DatabaseHelper.deleteEnrolled(user.getId(), cours.getId());
+            Utils.showAlert("Cours Enrolled","Cours Deleted Successfully!!");
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -118,4 +118,5 @@ public class CoursesViewController {
         }
 
     }
+
 }

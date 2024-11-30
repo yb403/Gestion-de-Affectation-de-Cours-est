@@ -22,13 +22,33 @@ public class DatabaseHelper {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    private static void insertStudent(int id, User user) throws SQLException {
+    public static void insertStudent(int id, User user) throws SQLException {
         String query = "INSERT INTO students (user_id) VALUES (?)";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         }
     }
+
+
+    public static void insertEnrolled(int student_id, int courseID) throws SQLException {
+        String query = "INSERT INTO enrolled(student_id,courseID) VALUES (?,?)";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, student_id);
+            stmt.setInt(2, courseID);
+            stmt.executeUpdate();
+        }
+    }
+
+    public static void deleteEnrolled(int student_id, int courseID) throws SQLException {
+        String query = "DELETE FROM enrolled WHERE student_id = ? and courseID = ?;";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, student_id);
+            stmt.setInt(2, courseID);
+            stmt.executeUpdate();
+        }
+    }
+
 
     private static void insertTeacher(int id, User user) throws SQLException {
         String query = "INSERT INTO teachers (user_id) VALUES (?)";
@@ -162,6 +182,59 @@ public class DatabaseHelper {
         return null;
     }
 
+
+    public static List<Cours> getMyCourseTeacher(int userid) throws SQLException {
+        String query = "SELECT * FROM cours WHERE teacherID = ?";
+        List<Cours> cours = new ArrayList<>();
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userid);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                cours.add(new Cours(rs.getInt("courseID"),
+                        rs.getString("courseName"),
+                        rs.getString("courseDescription"),
+                        new Teacher(rs.getInt("teacherID"),"","","","")));
+            }
+        }
+        System.out.println(cours);
+        return cours;
+    }
+
+    public static List<Cours> getMyCourse(int userid) throws SQLException {
+        String query = "SELECT * FROM cours c WHERE EXISTS ( SELECT * FROM enrolled e WHERE c.courseID = e.courseID and e.student_id = ? );";
+        List<Cours> cours = new ArrayList<>();
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userid);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                cours.add(new Cours(rs.getInt("courseID"),
+                        rs.getString("courseName"),
+                        rs.getString("courseDescription"),
+                        new Teacher(rs.getInt("teacherID"),"","","","")));
+            }
+        }
+        System.out.println(cours);
+        return cours;
+    }
+    public static List<Cours> getAvailableCourse(int userid) throws SQLException {
+        String query = "SELECT * FROM cours c WHERE NOT EXISTS ( SELECT * FROM enrolled e WHERE c.courseID = e.courseID and e.student_id = ?);";
+        List<Cours> cours = new ArrayList<>();
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userid);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                cours.add(new Cours(rs.getInt("courseID"),
+                        rs.getString("courseName"),
+                        rs.getString("courseDescription"),
+                        new Teacher(rs.getInt("teacherID"),"","","","")));
+            }
+        }
+        System.out.println(cours);
+        return cours;
+    }
 
     public static void saveUser(User user) throws SQLException {
 

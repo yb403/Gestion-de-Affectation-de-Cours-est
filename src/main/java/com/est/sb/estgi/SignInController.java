@@ -70,6 +70,7 @@ public class SignInController {
         emailField.setText("admin@admin.com");
         passwordField.setText("admin");
         emailField.setText("aha@ahaaaa.com");
+        emailField.setText("abc@gmail.com");
     }
     @FXML
     private void handleButtonSignUp(ActionEvent event) {

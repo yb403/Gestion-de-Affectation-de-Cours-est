@@ -1,6 +1,5 @@
 package com.est.sb.estgi;
 import com.est.sb.estgi.Dashboard.SettingsViewController;
-import com.est.sb.estgi.Dashboard.admin.EditCoursController;
 import com.est.sb.estgi.actors.Role;
 import com.est.sb.estgi.actors.User;
 import javafx.fxml.FXML;
@@ -10,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class DashboardController {
@@ -51,15 +49,28 @@ public class DashboardController {
             addSidebarButton("Profile", "#handleSettings");
         } else if (userRole.equals(Role.STUDENT.name())) {
             addSidebarButton("Home", "#handleHome");
-            addSidebarButton("Courses", "#handleMyCourses");
+            addSidebarButton("My Courses", "#handleMyCourses");
+            addSidebarButton("Courses", "#handleAvailableCourses");
             addSidebarButton("Profile", "#handleSettings");
         } else if (userRole.equals(Role.TEACHER.name())) {
             addSidebarButton("Home", "#handleHome");
-
+            addSidebarButton("My Courses", "#handleMyCoursesTeacher");
             addSidebarButton("Profile", "#handleSettings");
         }
     }
+    public void handleMyCoursesTeacher() {
 
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/MyCoursesViewTeacher.fxml"));
+            Parent editView = loader.load();
+            MyCoursesViewTeacherController controller = loader.getController();
+            controller.setUserData(userData);
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void addSidebarButton(String text, String actionMethod) {
         Button button = new Button(text);
         button.setPrefWidth(180);
@@ -113,8 +124,37 @@ public class DashboardController {
         }
     }
 
+
     public void handleMyCourses() {
-        loadContent("CoursesView.fxml");
+
+
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/MyCoursesView.fxml"));
+            Parent editView = loader.load();
+            MyCoursesViewController controller = loader.getController();
+            controller.setUserData(userData);
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handleAvailableCourses() {
+
+
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/CoursesView.fxml"));
+            Parent editView = loader.load();
+            CoursesViewController controller = loader.getController();
+            controller.setUserData(userData);
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleMyTeachers() {
