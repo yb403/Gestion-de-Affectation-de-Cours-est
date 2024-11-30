@@ -322,4 +322,25 @@ public class DatabaseHelper {
         }
         return users;
     }
+
+    public static List<Student> getEnrolledStudents(int courseID) throws SQLException {
+        String query = "SELECT * FROM users u, enrolled e WHERE u.id = e.student_id and e.courseID = ?";
+        List<Student> student = new ArrayList<>();
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, courseID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                student.add(new Student(rs.getInt("id"),
+                            rs.getString("Fname"),
+                            rs.getString("Lname"),
+                            rs.getString("email"),
+                            rs.getString("password")));
+
+
+
+            }
+        }
+        return student;
+    }
 }

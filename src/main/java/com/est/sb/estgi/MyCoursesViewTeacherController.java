@@ -1,11 +1,14 @@
 package com.est.sb.estgi;
 
+import com.est.sb.estgi.Dashboard.admin.EnrolledStudentsViewController;
 import com.est.sb.estgi.actors.Cours;
 import com.est.sb.estgi.actors.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -28,6 +31,7 @@ public class MyCoursesViewTeacherController {
     private List<Cours> coursList = new ArrayList<>();
     public void setUserData(User user) {
         this.user = user;
+        loadCourses();
     }
     public void initialize() {
 
@@ -82,21 +86,14 @@ public class MyCoursesViewTeacherController {
     private void enrollInCourse(HBox courseItem, Cours cours) {
 
         try {
-            courseItems.remove(courseItem);
-            if (cours != null) {
-                coursList.remove(cours);
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/est/sb/estgi/EnrolledStudentsView.fxml"));
+            Parent editView = loader.load();
+            EnrolledStudentsViewController controller = loader.getController();
+            controller.setCours(cours);
+            DashboardController.getContentArea().getChildren().clear(); // Clear existing content
+            DashboardController.getContentArea().getChildren().add(editView); // Add the edit view
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.showAlert("Error", "Failed to remove course.");
-        }
-
-        try{
-            DatabaseHelper.deleteEnrolled(user.getId(), cours.getId());
-            Utils.showAlert("Cours Enrolled","Cours Deleted Successfully!!");
-        } catch (Exception e) {
-            e.printStackTrace();
-
         }
     }
     private void coursDetails(String courseName) {
