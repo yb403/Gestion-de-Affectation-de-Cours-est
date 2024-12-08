@@ -16,8 +16,6 @@ public class SettingsViewController {
     public Label welcome;
     public TextField FnameField;
     public TextField LnameField;
-    public RadioButton male;
-    public RadioButton female;
     public PasswordField passwordField;
     public TextField idField;
     public void setUserId(int userId) {
@@ -42,7 +40,7 @@ public class SettingsViewController {
         String email = emailField.getText();
         String password = passwordField.getText();
         if (Fname.isEmpty()|| Lname.isEmpty() || email.isEmpty()  || password.isEmpty() || idField.getText().isEmpty() ) {
-            Utils.showAlert("Error", "Please fill in all fields and select a gender.");
+            Utils.showAlert("Error", "Please fill in all fields");
         }else if (!Utils.isValidEmail(email)) {
             Utils.showAlert("Invalid Email", "Please enter a valid email address.");
         }else {

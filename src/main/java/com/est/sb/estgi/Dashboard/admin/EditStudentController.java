@@ -33,17 +33,7 @@ public class EditStudentController {
 
 
     @FXML
-    private RadioButton male;
-
-    @FXML
-    private RadioButton female;
-    private ToggleGroup genderGroup;
-    @FXML
     public void initialize() {
-        genderGroup = new ToggleGroup();
-        male.setToggleGroup(genderGroup);
-        female.setToggleGroup(genderGroup);
-        male.setSelected(true);
 
     }
     public void setStudentData(Student student) {
@@ -67,7 +57,7 @@ public class EditStudentController {
         String email = emailField.getText();
         String password = passwordField.getText();
         if (Fname.isEmpty()|| Lname.isEmpty() || email.isEmpty()  || password.isEmpty()) {
-            Utils.showAlert("Error", "Please fill in all fields and select a gender.");
+            Utils.showAlert("Error", "Please fill in all fields.");
         }else if (!Utils.isValidEmail(email)) {
             Utils.showAlert("Invalid Email", "Please enter a valid email address.");
         }else {

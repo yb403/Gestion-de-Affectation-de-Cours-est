@@ -6,11 +6,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.est.sb.estgi.DashboardController">
     <!-- Sidebar -->
     <left>
         <VBox fx:id="sidebar" prefWidth="200" spacing="20.0" style="-fx-background-color: #34495e; -fx-padding: 15;" BorderPane.alignment="CENTER">
             <!-- Buttons will be dynamically added -->
+            <ImageView fitHeight="66.0" fitWidth="197.0" layoutX="17.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@log.png" />
+                </image>
+            </ImageView>
         </VBox>
     </left>
     <!-- Dynamic Content Area -->

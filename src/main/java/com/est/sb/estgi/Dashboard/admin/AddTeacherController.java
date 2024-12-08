@@ -15,11 +15,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class AddTeacherController {
-    @FXML
-    private RadioButton male;
 
-    @FXML
-    private RadioButton female;
     @FXML
     private TextField FnameField;
 
@@ -41,13 +37,9 @@ public class AddTeacherController {
         emailField.setText(student.getEmail());
 
     }
-    private ToggleGroup genderGroup;
+
     @FXML
     public void initialize() {
-        genderGroup = new ToggleGroup();
-        male.setToggleGroup(genderGroup);
-        female.setToggleGroup(genderGroup);
-        male.setSelected(true);
 
     }
 
@@ -74,10 +66,8 @@ public class AddTeacherController {
         String Lname = LnameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
-        Toggle selectedToggle = genderGroup.getSelectedToggle();
-        String gender = selectedToggle != null ? ((RadioButton) selectedToggle).getText() : "Not selected";
         if (Fname.isEmpty()|| Lname.isEmpty() || email.isEmpty()  || password.isEmpty()) {
-            Utils.showAlert("Error", "Please fill in all fields and select a gender.");
+            Utils.showAlert("Error", "Please fill in all fields.");
         }else if (!Utils.isValidEmail(email)) {
             Utils.showAlert("Invalid Email", "Please enter a valid email address.");
         }

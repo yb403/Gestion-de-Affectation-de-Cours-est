@@ -39,7 +39,7 @@ public class DashboardController {
         return instance.contentArea;
     }
     private void setupSidebar() {
-        sidebar.getChildren().clear();
+        //sidebar.getChildren().clear();
 
         if (userRole.equals(Role.ADMIN.name())) {
             addSidebarButton("Home", "#handleHome");
@@ -74,7 +74,7 @@ public class DashboardController {
     private void addSidebarButton(String text, String actionMethod) {
         Button button = new Button(text);
         button.setPrefWidth(180);
-        button.setStyle("-fx-font-size: 18; -fx-text-fill: #ffffff; -fx-background-color: #2f2f39;");
+        button.setStyle("-fx-font-size: 19; -fx-text-fill: #ffffff; -fx-background-color: #2f2f39; -fx-min-width: 197");
         button.setOnAction(event -> {
             try {
                 this.getClass().getMethod(actionMethod.substring(1)).invoke(this);
