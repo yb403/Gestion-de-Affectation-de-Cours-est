@@ -121,6 +121,7 @@ public class ManageStudentsViewController {
                 DatabaseHelper.deleteUser(student.getId());
                 studentTable.getItems().remove(student);
             } catch (Exception e) {
+                e.printStackTrace();
                 Utils.showAlert("Error", "Failed to delete student");
 
             }

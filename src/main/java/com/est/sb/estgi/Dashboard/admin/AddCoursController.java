@@ -49,7 +49,7 @@ public class AddCoursController {
         try{
             DatabaseHelper.saveCours(new Cours(0,title,description,teachers.get(teacherList.getSelectionModel().getSelectedIndex())));
             clearFields();
-            Utils.showAlert("Successfully", "Student Created Successfully.");
+            Utils.showAlert("Successfully", "Cours Created Successfully.");
 
         } catch (Exception e) {
             Utils.showAlert("Error", "Could not create Cours.");

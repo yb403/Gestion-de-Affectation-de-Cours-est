@@ -2,14 +2,19 @@ package com.est.sb.estgi;
 import com.est.sb.estgi.Dashboard.SettingsViewController;
 import com.est.sb.estgi.actors.Role;
 import com.est.sb.estgi.actors.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class DashboardController {
 
@@ -57,6 +62,28 @@ public class DashboardController {
             addSidebarButton("My Courses", "#handleMyCoursesTeacher");
             addSidebarButton("Profile", "#handleSettings");
         }
+
+        addSidebarButton("Logout", "#handleLogout");
+    }
+
+    public void handleLogout(){
+        Optional<ButtonType> result = Utils.showConfirmationAlert("Logout Confirmation", "You want to Logout?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
+                Parent root = loader.load();
+                // Get the current stage (window)
+                Stage stage = (Stage) sidebar.getScene().getWindow();
+                stage.setScene(new Scene(root, 820, 540));
+
+                // Optionally, you can show the stage again
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Utils.showAlert("Error", "Failed to Logout");
+
+            }
+        }
     }
     public void handleMyCoursesTeacher() {
 
@@ -74,7 +101,12 @@ public class DashboardController {
     private void addSidebarButton(String text, String actionMethod) {
         Button button = new Button(text);
         button.setPrefWidth(180);
-        button.setStyle("-fx-font-size: 19; -fx-text-fill: #ffffff; -fx-background-color: #2f2f39; -fx-min-width: 197");
+        if (Objects.equals(text, "Logout")){
+            button.setStyle("-fx-font-size: 19; -fx-text-fill: #ffffff;; -fx-min-width: 197; -fx-background-color: #550a27;");
+        } else {
+            button.setStyle("-fx-font-size: 19; -fx-text-fill: #ffffff; -fx-background-color: #2f2f39; -fx-min-width: 197");
+        }
+
         button.setOnAction(event -> {
             try {
                 this.getClass().getMethod(actionMethod.substring(1)).invoke(this);

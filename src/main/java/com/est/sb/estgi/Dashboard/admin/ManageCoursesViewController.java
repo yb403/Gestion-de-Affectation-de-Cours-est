@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ManageCoursesViewController {
@@ -66,6 +67,13 @@ public class ManageCoursesViewController {
                         handleDelete(cour);
                     }
                 });
+
+                detailsButton.setOnAction(event -> {
+                    Cours cour = getTableRow().getItem();
+                    if (cour != null) {
+                        handleDetails(cour);
+                    }
+                });
             }
 
             @Override
@@ -86,7 +94,19 @@ public class ManageCoursesViewController {
         coursTable.getItems().setAll(getCours());
     }
 
+    private void handleDetails(Cours cour) {
 
+        try{
+
+            Cours crs = DatabaseHelper.getCoursById(cour.getId());
+            Utils.showAlert("Cours Details", crs.getDescription());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.showAlert("Error", "Error");
+
+        }
+
+    }
     @FXML
     public void handleCreateCoursButton() {
         try {
